@@ -1,36 +1,32 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using WingsOn.Api.Models;
+using WingsOn.Domain;
 using WingsOn.Services;
+using Person = WingsOn.Api.Models.Person;
 
 namespace WingsOn.Api.Controllers;
 
-[ApiController]
-[Route("[controller]")]
-public class PeopleController : ControllerBase
+public class PeopleController : ApiControllerBase
 {
     private readonly IPersonService _personService;
-    private readonly IMapper _mapper;
-    private readonly ILogger<PeopleController> _logger;
 
     public PeopleController(IPersonService personService, IMapper mapper, ILogger<PeopleController> logger)
+        : base(mapper, logger)
     {
         _personService = personService;
-        _mapper = mapper;
-        _logger = logger;
     }
 
     [HttpGet]
-    public async Task<IEnumerable<Person>> GetAsync()
+    public async Task<IEnumerable<Person>> GetAsync([FromQuery] GenderType? gender)
     {
-        var peopleDtos = await _personService.GetManyAsync();
-        return _mapper.Map<Person[]>(peopleDtos);
+        var personDtos = await _personService.GetManyAsync(gender);
+        return Mapper.Map<Person[]>(personDtos);
     }
 
     [HttpGet("{id}")]
     public async Task<Person> GetByIdAsync(int id)
     {
         var personDto = await _personService.GetByIdAsync(id);
-        return _mapper.Map<Person>(personDto);
+        return Mapper.Map<Person>(personDto);
     }
 }

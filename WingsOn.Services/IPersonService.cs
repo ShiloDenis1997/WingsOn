@@ -1,9 +1,11 @@
-﻿using WingsOn.Services.Dto;
+﻿using WingsOn.Domain;
+using WingsOn.Services.Dto;
 
 namespace WingsOn.Services;
 
 public interface IPersonService
 {
-    Task<PersonDto[]> GetManyAsync();
+    Task<PersonDto[]> GetManyAsync(GenderType? gender = null);
     Task<PersonDto> GetByIdAsync(int id);
+    Task<PersonDto[]> GetByFlightIdAsync(int flightId);
 }

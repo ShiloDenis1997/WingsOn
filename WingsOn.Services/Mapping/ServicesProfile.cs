@@ -10,5 +10,11 @@ public class ServicesProfile : Profile
     {
         CreateMap<Person, PersonDto>()
             .ReverseMap();
+        CreateMap<Airline, AirlineDto>()
+            .ReverseMap();
+        CreateMap<Airport, AirportDto>()
+            .ReverseMap();
+        CreateMap<Flight, FlightDto>()
+            .ReverseMap();
     }
 }

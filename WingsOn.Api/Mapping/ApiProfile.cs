@@ -9,5 +9,8 @@ public class ApiProfile : Profile
     public ApiProfile()
     {
         CreateMap<PersonDto, Person>();
+        CreateMap<AirlineDto, Airline>();
+        CreateMap<AirportDto, Airport>();
+        CreateMap<FlightDto, Flight>();
     }
 }

@@ -9,8 +9,11 @@ public static class SetupExtensions
     public static IServiceCollection AddServicesLayer(this IServiceCollection services)
     {
         services.AddTransient<IPersonService, PersonService>();
+        services.AddTransient<IFlightService, FlightService>();
 
         services.AddSingleton<IRepository<Person>, PersonRepository>();
+        services.AddSingleton<IRepository<Flight>, FlightRepository>();
+        services.AddSingleton<IRepository<Booking>, BookingRepository>();
 
         return services;
     }
