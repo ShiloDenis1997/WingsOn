@@ -13,6 +13,6 @@ public class BookingPostRequest
     [Required]
     public int CustomerId { get; set; }
 
-    [MinLength(1)]
+    [MinLength(1, ErrorMessage = "Passengers array should contain at least one passenger")]
     public IEnumerable<Person> Passengers { get; set; }
 }

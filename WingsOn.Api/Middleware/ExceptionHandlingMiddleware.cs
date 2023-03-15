@@ -24,7 +24,7 @@ public class ExceptionHandlingMiddleware
         catch (ArgumentException ex)
         {
             _logger.LogError(ex, ex.Message);
-            await WriteResponse(context, HttpStatusCode.BadRequest, new ErrorResponse(ex.Message));
+            await WriteResponse(context, HttpStatusCode.UnprocessableEntity, new ErrorResponse(ex.Message));
         }
         catch (NotFoundException ex)
         {
