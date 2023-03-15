@@ -40,9 +40,19 @@ internal class BookingService : ServiceBase, IBookingService
             Number = bookingCreateDto.Number,
             DateBooking = DateTime.UtcNow,
             Customer = GetPerson(bookingCreateDto.CustomerId),
-            Flight = GetFlight(bookingCreateDto.FlightId)
+            Flight = GetFlight(bookingCreateDto.FlightId),
+            Passengers = CreatePassengersList(bookingCreateDto),
+            Id = _bookingRepository.GetAll().Max(b => b.Id) + 1 // just to emulate new id assignment as it's not done by dal
         };
 
+        _bookingRepository.Save(newBooking);
+
+        var bookingDto = Mapper.Map<BookingDto>(newBooking);
+        return Task.FromResult(bookingDto);
+    }
+
+    private List<Person> CreatePassengersList(BookingCreateDto bookingCreateDto)
+    {
         var bookingPassengers = new List<Person>();
         var maxPersonId = _personRepository.GetAll().Max(p => p.Id); // just to emulate new id assignment as it's not done by dal
         foreach (var passenger in bookingCreateDto.Passengers)
@@ -61,13 +71,7 @@ internal class BookingService : ServiceBase, IBookingService
             }
         }
 
-        var maxBookingId = _bookingRepository.GetAll().Max(b => b.Id); // just to emulate new id assignment as it's not done by dal
-        newBooking.Id = ++maxBookingId;
-        newBooking.Passengers = bookingPassengers;
-        _bookingRepository.Save(newBooking);
-
-        var bookingDto = Mapper.Map<BookingDto>(newBooking);
-        return Task.FromResult(bookingDto);
+        return bookingPassengers;
     }
 
     private Person GetPerson(int personId)
