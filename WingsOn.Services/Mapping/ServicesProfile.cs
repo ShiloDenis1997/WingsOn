@@ -16,5 +16,7 @@ public class ServicesProfile : Profile
             .ReverseMap();
         CreateMap<Flight, FlightDto>()
             .ReverseMap();
+        CreateMap<Booking, BookingDto>()
+            .ReverseMap();
     }
 }

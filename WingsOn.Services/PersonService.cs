@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using WingsOn.Dal;
 using WingsOn.Domain;
 using WingsOn.Services.Dto;
+using WingsOn.Services.Dto.Update;
+using WingsOn.Services.Exceptions;
 
 namespace WingsOn.Services;
 
@@ -31,11 +33,11 @@ internal class PersonService : ServiceBase, IPersonService
         return Task.FromResult(peopleDtos);
     }
 
-    public Task<PersonDto> GetByIdAsync(int id)
+    public Task<PersonDto?> GetByIdAsync(int id)
     {
         var person = _personRepository.Get(id);
 
-        var personDto = Mapper.Map<PersonDto>(person);
+        var personDto = Mapper.Map<PersonDto?>(person);
         return Task.FromResult(personDto);
     }
 
@@ -46,5 +48,20 @@ internal class PersonService : ServiceBase, IPersonService
 
         var peopleDtos = Mapper.Map<PersonDto[]>(passengers);
         return Task.FromResult(peopleDtos);
+    }
+
+    public Task<PersonDto> UpdatePersonAsync(int id, PersonUpdateDto personUpdateDto)
+    {
+        var person = _personRepository.Get(id);
+        if (person == null)
+        {
+            throw new NotFoundException($"Person with id '{id}' is not found.");
+        }
+
+        person.Address = personUpdateDto.Address;
+        _personRepository.Save(person);
+
+        var personDto = Mapper.Map<PersonDto>(person);
+        return Task.FromResult(personDto);
     }
 }

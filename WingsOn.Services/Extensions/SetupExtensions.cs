@@ -10,6 +10,7 @@ public static class SetupExtensions
     {
         services.AddTransient<IPersonService, PersonService>();
         services.AddTransient<IFlightService, FlightService>();
+        services.AddTransient<IBookingService, BookingService>();
 
         services.AddSingleton<IRepository<Person>, PersonRepository>();
         services.AddSingleton<IRepository<Flight>, FlightRepository>();

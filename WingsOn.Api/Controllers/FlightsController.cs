@@ -19,7 +19,7 @@ public class FlightsController : ApiControllerBase
     }
 
     [HttpGet]
-    public async Task<IEnumerable<Flight>> GetAsync([FromQuery] string? number)
+    public async Task<IEnumerable<Flight>> GetManyAsync([FromQuery] string? number)
     {
         var flightDtos = await _flightService.GetManyAsync(number);
         return Mapper.Map<Flight[]>(flightDtos);

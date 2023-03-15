@@ -8,7 +8,7 @@ public class Person
 
     public string Name { get; set; } = null!;
 
-    public DateTime DateBirth { get; set; }
+    public DateOnly DateBirth { get; set; }
 
     public GenderType Gender { get; set; }
 
